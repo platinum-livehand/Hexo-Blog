@@ -221,3 +221,38 @@ public:
 
 - **时间复杂度**：**O(n)**
 - **空间复杂度**：**O(n)**
+
+## [1297. 子串的最大出现次数](https://leetcode.cn/problems/maximum-number-of-occurrences-of-a-substring/)
+
+思路：只需统计长度为 minSize 的子串，而不需要统计长度为 maxSize 的字串，因为 "abc" 肯定会覆盖 "a"，"ab"，即长的肯定会覆盖短的，只需要考虑最短的即可。
+
+```c++
+class Solution {
+public:
+    int maxFreq(string s, int maxLetters, int minSize, int maxSize) 
+    {
+        int n = s.size(), ans = 0;
+        // 统计子串出现的次数
+        unordered_map<string, int> cnt;
+        for(int i = 0; i < n-minSize+1; ++i)
+        {
+            // 获取子串（定长滑动窗口）
+            string subString = s.substr(i, minSize);
+            // 利用哈希集合统计不同字母的个数
+            unordered_set<int> hash_set(subString.begin(), subString.end());
+            // 如果满足不同字母数目小于等于 maxLetters
+            if(hash_set.size() <= maxLetters)
+            {
+                // 当前子串个数++
+                cnt[subString]++;
+                // 尝试更新最长子串
+                ans = max(ans, cnt[subString]);
+            }
+        }    
+        return ans;
+    }
+};
+```
+
+- **时间复杂度**：**O(n*minSize)**
+- **空间复杂度**：**O(n*minSize)**
