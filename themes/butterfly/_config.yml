@@ -33,7 +33,7 @@ menu:
 
 code_blocks:
   # Code block theme: darker / pale night / light / ocean / false
-  theme: light
+  theme: darker
   macStyle: true
   # Code block height limit (unit: px)
   height_limit: false
@@ -450,19 +450,19 @@ busuanzi:
 math:
   # Choose: mathjax, katex
   # Leave it empty if you don't need math
-  use:
+  use: mathjax
   per_page: true
   hide_scrollbar: false
 
   mathjax:
     # Enable the contextual menu
-    enableMenu: true
+    enableMenu: false
     # Choose: all / ams / none, This controls whether equations are numbered and how
     tags: none
 
   katex:
     # Enable the copy KaTeX formula
-    copy_tex: false
+    copy_tex: true
 
 # --------------------------------------
 # Search
@@ -805,7 +805,7 @@ beautify:
 # Global font settings
 # Don't modify the following settings unless you know how they work
 font:
-  global_font_size:
+  global_font_size: 18px
   code_font_size:
   font_family:
   code_font_family:

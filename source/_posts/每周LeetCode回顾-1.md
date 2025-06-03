@@ -38,14 +38,14 @@ public:
 };
 ```
 
-- **时间复杂度**：O(n)
-- **空间复杂度**：O(n)
+- **时间复杂度：O(n)**
+- **空间复杂度：O(n)**
 
 ## [189. 轮转数组](https://leetcode.cn/problems/rotate-array/)
 
 思路：
 
-![](.\轮转数组.png)
+![](./img/每周LeetCode回顾-1/轮转数组.png)
 
 ```c++
 class Solution {
@@ -66,8 +66,8 @@ public:
 };
 ```
 
-- **时间复杂度**：O(n)
-- **空间复杂度**：O(1)
+- **时间复杂度：O(n)**
+- **空间复杂度：O(1)**
 
 ## [73. 矩阵置零](https://leetcode.cn/problems/set-matrix-zeroes)
 
@@ -112,16 +112,16 @@ public:
 };
 ```
 
-- **时间复杂度**：**O(m × n)**（两次遍历矩阵）
-- **空间复杂度**：**O(m + n)**（存储行和列的标记）
+- **时间复杂度**：**O(m × n)**
+- **空间复杂度**：**O(m + n)**
 
-## 238. 除自身以外数组的乘积
+## [238. 除自身以外数组的乘积](https://leetcode.cn/problems/product-of-array-except-self)
 
 `answer[i]` 等于 `nums` 中除了 `nums[i]` 之外其余各元素的乘积。换句话说，如果知道了 `i` 左边所有数的乘积，以及 `i` 右边所有数的乘积，就可以算出 `answer[i]`。
 
 于是：
 
-- 定义 `pre[i]` 表示从 `nums[0]` 到 `nums[i−1]` 的乘积。
+- 定义 `pre[i]`表示从 `nums[0]` 到 `nums[i−1]` 的乘积。
 
 - 定义 `suf[i]` 表示从 `nums[i+1]` 到 `nums[n−1]` 的乘积。
 
@@ -141,3 +141,38 @@ $$
 $$
 answer[i]=pre[i]⋅suf[i]
 $$
+
+```c++
+class Solution {
+public:
+    vector<int> productExceptSelf(vector<int>& nums) 
+    {
+        int n = nums.size();
+        // 前缀乘积（不包含本元素）
+        vector<int> preMulti(n, 1);
+        // 后缀乘积（不包含本元素）
+        vector<int> posMulti(n, 1);
+        // 计算前缀乘积
+        for(int i = 1; i < n; ++i)
+        {
+            preMulti[i] = preMulti[i-1]*nums[i-1];
+        }
+        // 计算后缀乘积
+        for(int j = n-2; j >= 0; --j)
+        {
+            posMulti[j] = posMulti[j+1]*nums[j+1];
+        }
+        // 结果
+        vector<int> ans(n);
+        for(int i = 0; i < n; ++i)
+        {
+            // 前缀乘积 与 后缀乘积相乘
+            ans[i] = posMulti[i] * preMulti[i];
+        }
+        return ans;
+    }
+};
+```
+
+- **时间复杂度**：**O(n)**
+- **空间复杂度**：**O(n)**
