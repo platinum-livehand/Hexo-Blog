@@ -2,6 +2,9 @@
 title: 每周LeetCode回顾-1
 date: 2025-06-02 20:06:35
 tags:
+  - leetcode
+  - C++
+categories: leetcode
 ---
 
 ## [456. 132模式](https://leetcode.cn/problems/132-pattern/)
@@ -168,6 +171,48 @@ public:
         {
             // 前缀乘积 与 后缀乘积相乘
             ans[i] = posMulti[i] * preMulti[i];
+        }
+        return ans;
+    }
+};
+```
+
+- **时间复杂度**：**O(n)**
+- **空间复杂度**：**O(n)**
+
+## [2134. 最少交换次数来组合所有的 1 II](https://leetcode.cn/problems/minimum-swaps-to-group-all-1s-together-ii/)
+
+思路：将问题转化为 **定长滑动窗口内 0 的最小个数**
+
+```c++
+class Solution {
+public:
+    int minSwaps(vector<int>& nums) 
+    {
+        // 数组大小
+        int n = nums.size(), k = 0;
+        // 计算 1 的个数（窗口长度）
+        for(auto& num : nums)
+        {
+            if(num == 1) k++;
+        }
+        // 拼接环形数组
+        nums.insert(nums.end(), nums.begin(), nums.begin()+k);
+
+        int ans = INT_MAX;
+        // 记录 0 和 1 的个数
+        vector<int> hash(2);
+        // 利用定长滑动窗口记录窗口中 0 的个数即可
+        for(int i = 0; i < nums.size(); ++i)
+        {
+            // 进入窗口
+            hash[nums[i]]++;
+            // 小于窗口长度
+            if(i < k) continue;
+            // 退出窗口
+            hash[nums[i-k]]--;
+            // 找到 0 最少的窗口
+            ans = min(ans, hash[0]);
         }
         return ans;
     }
