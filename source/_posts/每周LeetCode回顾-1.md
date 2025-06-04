@@ -267,7 +267,7 @@ public:
 - **时间复杂度**：**O(n*minSize)**
 - **空间复杂度**：**O(n*minSize)**
 
-## 2389. 和有限的最长子序列
+## [2389. 和有限的最长子序列](https://leetcode.cn/problems/longest-subsequence-with-limited-sum)
 
 ### 思路：
 
