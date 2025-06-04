@@ -318,3 +318,110 @@ public:
 };
 ```
 
+## [2140. 解决智力问题](https://leetcode.cn/problems/solving-questions-with-brainpower)
+
+### 思路：
+
+#### **一、寻找子问题**
+
+在`示例1`中，我们要解决的问题（原问题）是：
+
+- **剩余问题的下标为 `[0, 3]`**，计算从这些问题中可以获得的最大分数。
+
+**讨论 `questions[0]` 选或不选的情况**：
+
+- 如果不选 `questions[0]`子问题变为：剩余问题的下标为 `[1, 3]`，计算从这些问题中可以获得的最大分数。
+- 如果选，接下来的 `2` 个问题（`brainpower[0] = 2`）都不能选，子问题变为：剩余问题的下标为 `[3, 3]`，计算从这些问题中可以获得的最大分数。
+
+------
+
+#### **二、状态定义与递推公式**
+
+根据上面的讨论，定义 `dp(i)` 表示：剩余问题的下标为 `[i, n-1]` 时，能获得的最大分数（`n` 是 `questions` 的长度）。
+
+**讨论 `questions[i]` 选或不选的情况**：
+
+- 如果不选，子问题为 `dp(i + 1)`（剩余问题下标 `[i+1, n-1]`）。
+- 如果选，跳过 `brainpower[i]` 个问题，子问题为 `dp(i + brainpower[i] + 1)`（剩余问题下标 `[i + brainpower[i] + 1, n-1]`），并累加当前分数 `points[i]`。
+
+**递推公式**：
+$$
+dp(i)=max(dp(i+1),dp(i+brainpower[i]+1)+points[i])
+$$
+
+```c++
+class Solution {
+public:
+    long long mostPoints(vector<vector<int>>& questions) 
+    {
+        int n = questions.size();
+        // 剩余问题的下标为 [i,n-1] 时，能获得的最大分数
+        vector<long long> dp(n+1);
+        for(int i = n-1; i >= 0; --i)
+        {
+            // dp[i+1]：不选questions[i]
+            // dp[i+questions[i][1]+1]：选questions[i]
+            dp[i] = max(dp[i+1], dp[min(i+questions[i][1]+1, n)]+questions[i][0]);
+        }
+        return dp[0];
+    }
+};
+```
+
+## [53. 最大数组和](https://leetcode.cn/problems/maximum-subarray/)
+
+### 思路 1：前缀和 + 贪心
+
+由于子数组的元素和等于两个前缀和的差，所以求出 `nums` 的前缀和，问题就变成 [121. 买卖股票的最佳时机](https://leetcode.cn/problems/best-time-to-buy-and-sell-stock/) 了。本题子数组不能为空，相当于一定要交易一次。
+
+```c++
+class Solution {
+public:
+    int maxSubArray(vector<int>& nums) 
+    {
+        int n = nums.size();
+
+        // 计算前缀和
+        vector<int> preSum(n);
+        preSum[0] = nums[0];
+        for(int i = 1; i < n; ++i)
+        {
+            preSum[i] = preSum[i-1] + nums[i];
+        }
+
+        int ans = preSum[0];
+        int localMinimum = 0; // 最小值
+        for(auto& value : preSum)
+        {
+            // 更新最大的数组和
+            ans = max(ans, value-localMinimum);
+            // 更新最小值
+            localMinimum = min(localMinimum, value);
+        }
+
+        return ans;
+    }
+};
+```
+
+### 思路 2：动态规划
+
+#### **动态规划定义**
+
+定义 `dp[i]` 表示以 `nums[i]` 结尾的最大子数组和。
+
+**状态转移方程**
+
+分两种情况讨论：
+
+- `nums[i]` 单独成子数组 `dp[i] = nums[i]`。
+- `nums[i]` 与前面的子数组拼接 `dp[i] = dp[i-1] + nums[i]`。
+
+综合两种情况，取最大值：
+$$
+f(x) = 
+\begin{cases} 
+nums[i], & i = 0 \\
+max(dp[i-1],0)+nums[i], & i \geq 0 
+\end{cases}
+$$
