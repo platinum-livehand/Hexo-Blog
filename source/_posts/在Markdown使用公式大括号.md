@@ -16,7 +16,7 @@ categories: 问题记录
 
 使用 `cases` 环境：
 
-```latex
+```m
 $$
 f(x) = 
 \begin{cases} 
