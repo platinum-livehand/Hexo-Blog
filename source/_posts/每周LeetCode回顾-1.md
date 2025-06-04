@@ -9,7 +9,9 @@ categories: leetcode
 
 ## [456. 132模式](https://leetcode.cn/problems/132-pattern/)
 
-思路：从后往前遍历，维护一个**单调递减**的栈，同时使用 `k` 记录所有出栈元素的最大值。
+### 思路：
+
+从后往前遍历，维护一个**单调递减**的栈，同时使用 `k` 记录所有出栈元素的最大值。
 
 ```c++
 class Solution {
@@ -46,7 +48,7 @@ public:
 
 ## [189. 轮转数组](https://leetcode.cn/problems/rotate-array/)
 
-思路：
+### 思路：
 
 ![](./img/每周LeetCode回顾-1/轮转数组.png)
 
@@ -74,7 +76,9 @@ public:
 
 ## [73. 矩阵置零](https://leetcode.cn/problems/set-matrix-zeroes)
 
-思路：使用与行列数量相等的数组记录置零信息。
+### 思路：
+
+使用与行列数量相等的数组记录置零信息。
 
 ```c++
 class Solution {
@@ -119,6 +123,8 @@ public:
 - **空间复杂度**：**O(m + n)**
 
 ## [238. 除自身以外数组的乘积](https://leetcode.cn/problems/product-of-array-except-self)
+
+### 思路：
 
 `answer[i]` 等于 `nums` 中除了 `nums[i]` 之外其余各元素的乘积。换句话说，如果知道了 `i` 左边所有数的乘积，以及 `i` 右边所有数的乘积，就可以算出 `answer[i]`。
 
@@ -182,7 +188,9 @@ public:
 
 ## [2134. 最少交换次数来组合所有的 1 II](https://leetcode.cn/problems/minimum-swaps-to-group-all-1s-together-ii/)
 
-思路：将问题转化为 **定长滑动窗口内 0 的最小个数**
+### 思路：
+
+将问题转化为 **定长滑动窗口内 0 的最小个数**
 
 ```c++
 class Solution {
@@ -224,7 +232,9 @@ public:
 
 ## [1297. 子串的最大出现次数](https://leetcode.cn/problems/maximum-number-of-occurrences-of-a-substring/)
 
-思路：只需统计长度为 minSize 的子串，而不需要统计长度为 maxSize 的字串，因为 "abc" 肯定会覆盖 "a"，"ab"，即长的肯定会覆盖短的，只需要考虑最短的即可。
+### 思路：
+
+只需统计长度为 minSize 的子串，而不需要统计长度为 maxSize 的字串，因为 "abc" 肯定会覆盖 "a"，"ab"，即长的肯定会覆盖短的，只需要考虑最短的即可。
 
 ```c++
 class Solution {
@@ -256,3 +266,55 @@ public:
 
 - **时间复杂度**：**O(n*minSize)**
 - **空间复杂度**：**O(n*minSize)**
+
+## 2389. 和有限的最长子序列
+
+### 思路：
+
+- 贪心：由于元素和有上限，为了能让子序列尽量长，子序列中的元素值越小越好。
+
+对于本题来说，元素在数组中的位置是无关紧要的（因为我们计算的是元素和），所以可以排序了。把 `nums` 从小到大排序后，再从小到大选择尽量多的元素（相当于选择一个前缀），使这些元素的和不超过询问值。
+
+- 既然求的是前缀的元素和（前缀和），那么干脆把每个前缀和都算出来。做法是递推：前 `i` 个数的元素和，等于前 `i−1` 个数的元素和，加上第 `i` 个数的值。
+
+例如 `[4,5,2,1]` 排序后为 `[1,2,4,5]`，从左到右递推计算前缀和，得到 `[1,3,7,12]`。
+
+- 由于 `nums[i]` 都是正整数，前缀和是严格单调递增的，这样就能在前缀和上使用二分查找：找到大于 `queries[i]` 的第一个数的下标，由于下标是从 `0` 开始的，这个数的下标正好就是前缀和小于等于 `queries[i]` 的最长前缀的长度。
+
+
+例如在 `[1,3,7,12]` 二分查找大于 `3` 的第一个数（`7`），得到下标 `2`，这正好就是前缀和小于等于 `3` 的最长前缀长度。对应到 `nums` 中，就是选择了 `2` 个数（`1` 和 `2`）作为子序列中的元素。
+
+```c++
+class Solution {
+public:
+    vector<int> answerQueries(vector<int>& nums, vector<int>& queries) 
+    {
+        int n = nums.size(), m = queries.size();
+
+        // 由于题目只要求子序列，所以可以对原数组进行排序
+        sort(nums.begin(), nums.end());
+
+        // 计算元素前缀和
+        // 可以使用 C++ 函数 partial_sum(nums.begin(), nums.end()) 原地求前缀和
+        vector<int> preSum(n);
+        preSum[0] = nums[0];
+        for(int i = 1; i < n; ++i)
+        {
+            preSum[i] = preSum[i-1]+nums[i];
+        }    
+
+        vector<int> ans;
+        for(int i = 0; i < m; ++i)
+        {
+            // lower_bound 找到第一个 <= 的元素
+            // upper_bound 找到第一个 < 的元素，会覆盖所有 <= 的元素
+            auto it = upper_bound(preSum.begin(), preSum.end(), queries[i]);
+            // 计算元素个数
+            ans.emplace_back(it-preSum.begin());
+        }
+
+        return ans;
+    }
+};
+```
+
