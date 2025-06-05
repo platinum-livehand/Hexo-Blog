@@ -425,3 +425,56 @@ nums[i], & i = 0 \\
 max(dp[i-1],0)+nums[i], & i \geq 0 
 \end{cases}
 $$
+
+## [2606. 找到最大开销的子字符串](https://leetcode.cn/problems/find-the-substring-with-maximum-cost)
+
+### 思路：
+
+按照题目要求，把 `s` 中的字母映射到数字上，设映射后变成了数组 `a`，那么题目相当于求 `a` 的  [53.最大子数组和](https://leetcode.cn/problems/maximum-subarray/)（允许子数组为空）。
+
+定义 `dp[i]` 为以 `a[i]` 结尾的最大子数组和，考虑是否接在以 `a[i−1]` 结尾的最大子数组之后：
+
+- 接：`dp[i]=dp[i−1]+a[i]`
+
+- 不接：`dp[i]=a[i]`
+
+二者取最大值，得
+$$
+dp[i]=max(dp[i−1],0)+a[i]
+$$
+答案为 `max(f)`。
+
+```c++
+class Solution {
+public:
+    int maximumCostSubstring(string s, string chars, vector<int>& vals) 
+    {
+        int n = chars.size();
+
+        // 记录特殊字母对应的开销
+        unordered_map<char, int> valueTable;
+        for(int i = 0; i < n; ++i)
+        {
+            valueTable[chars[i]] = vals[i];
+        }    
+
+        int m = s.size();
+        // 初始化 dp 数组
+        vector<int> dp(m);
+        dp[0] = s[0]-'a'+1;
+        if(valueTable.count(s[0])) dp[0] = valueTable[s[0]];
+        // 最大开销的初始值
+        int ans = dp[0];
+        for(int i = 1; i < m; ++i)
+        {
+            int value = s[i]-'a'+1;
+            if(valueTable.count(s[i])) value = valueTable[s[i]];
+            dp[i] = max(dp[i-1]+value, value);
+            // 更新全局最大值
+            ans = max(ans, dp[i]);
+        }
+        return ans < 0 ? 0 : ans;
+    }
+};
+```
+
