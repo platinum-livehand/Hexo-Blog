@@ -77,10 +77,10 @@ $$
 
 ## 5. 常用数学符号
 
-- 求和：$\sum_{i=1}^n i = \frac{n(n+1)}{2}$
-- 积分：$\int_a^b f(x)dx$
-- 希腊字母：$\alpha, \beta, \gamma$
-- 不等式：$a > b \leq c \neq d$
+- 求和：`$\sum_{i=1}^n i = \frac{n(n+1)}{2}$`$\sum_{i=1}^n i = \frac{n(n+1)}{2}$
+- 积分：`$\int_a^b f(x)dx$` $\int_a^b f(x)dx$
+- 希腊字母：`$\alpha, \beta, \gamma$` $\alpha, \beta, \gamma$
+- 不等式：`$a > b \leq c \neq d$` $a > b \leq c \neq d$
 
 ## 6. 分段函数
 
