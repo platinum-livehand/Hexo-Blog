@@ -45,7 +45,8 @@ relative_link: false
 future: true
 syntax_highlighter: highlight.js
 highlight:
-  line_number: true
+  enable: true
+  line_number: false
   auto_detect: false
   tab_replace: ''
   wrap: true
@@ -104,3 +105,12 @@ deploy:
   type: git
   repo: git@47.122.27.37:/home/git/blog.git
   branch: master
+
+pandoc:
+  pandoc_path: C:/Program Files/Pandoc/pandoc.exe  # 根据你的实际路径修改
+  args:
+    - "-f"
+    - "markdown"
+    - "-t"
+    - "html"
+    - "--mathjax"
