@@ -1,17 +1,20 @@
 ---
-title: 在markdown中使用latex公式
-date: 2025-06-04 17:35:14
+title: 在MarkDown中使用Latex写公式
+date: 2025-06-05 12:15:17
 tags:
   - Hexo
   - Markdown
   - Latex
 categories: 问题记录
-
 ---
 
 # LaTeX 公式完整示例
 
 ## 1. 行内公式
+
+```
+这是爱因斯坦质能方程：$E=mc^2$，其中 $E$ 是能量，$m$ 是质量，$c$ 是光速。
+```
 
 这是爱因斯坦质能方程：$E=mc^2$，其中 $E$ 是能量，$m$ 是质量，$c$ 是光速。
 
