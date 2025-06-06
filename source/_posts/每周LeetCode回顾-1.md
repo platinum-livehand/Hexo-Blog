@@ -50,7 +50,7 @@ public:
 
 ### 思路：
 
-![](./img/每周LeetCode回顾-1/轮转数组.png)
+![](/img/每周LeetCode回顾-1/轮转数组.png)
 
 ```c++
 class Solution {
