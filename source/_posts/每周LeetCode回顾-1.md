@@ -50,7 +50,7 @@ public:
 
 ### 思路：
 
-![](/img/每周LeetCode回顾-1/轮转数组.png)
+![](https://bucker-qyhome.oss-cn-beijing.aliyuncs.com/%E8%BD%AE%E8%BD%AC%E6%95%B0%E7%BB%84.png))
 
 ```c++
 class Solution {
@@ -519,7 +519,7 @@ public:
 
 例如示例 1，从 2 出发 DFS，可以访问到 4,6,7，那么把 2 加到 `answer[4]`，`answer[6]`，`answer[7]` 中。
 
-![](/img/每周LeetCode回顾-1/有向无环图中一个节点的所有祖先.png)
+![](https://bucker-qyhome.oss-cn-beijing.aliyuncs.com/%E6%9C%89%E5%90%91%E6%97%A0%E7%8E%AF%E5%9B%BE%E4%B8%AD%E4%B8%80%E4%B8%AA%E8%8A%82%E7%82%B9%E7%9A%84%E6%89%80%E6%9C%89%E7%A5%96%E5%85%88.png)
 
 依次从起点 `start=0,1,2,⋯,n−1` 出发 DFS，途中把 `start` 加到能访问到的点的 `answer` 中。由于 `start` 从小到大枚举，所以 `answer[i]` 列表自然就是有序的了。
 

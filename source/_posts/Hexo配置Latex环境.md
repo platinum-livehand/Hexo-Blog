@@ -55,7 +55,7 @@ math:
 
 - 报错 `Error:spawnSync pandOC ETIMEDOUT`
 
-![](/img/Hexo配置Latex环境/pandoc报错.png)
+![](https://bucker-qyhome.oss-cn-beijing.aliyuncs.com/pandoc%E6%8A%A5%E9%94%99.png)
 
 解决方法：修改 `Hexo` 的 `_config.yml` 文件，添加以下配置项。
 
